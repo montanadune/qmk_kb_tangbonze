@@ -10,12 +10,12 @@ jobs:
 
       - name: Build firmware using Docker
         run: |
-          # 実際のフォルダ構造に合わせて、ビルド対象のソースパス（-s）を正確に指定します
+          # 実際のフォルダ展開構造に合わせ、ビルド対象のソースパスを zmk/app に修正
           docker run --rm -v "$(pwd):/workspace" -w /workspace zmkfirmware/zmk-build-arm:stable /bin/bash -c "
             west init -l config &&
             west update --narrow --fetch-opt=--depth=1 &&
             west zephyr-export &&
-            west build -s dependencies/zmk/app -d build/keyball61_right -b nice_nano_v2 -- -DSHIELD=keyball61_right -DZMK_CONFIG=/workspace/config
+            west build -s zmk/app -d build/keyball61_right -b nice_nano_v2 -- -DSHIELD=keyball61_right -DZMK_CONFIG=/workspace/config
           "
 
       - name: Archive artifacts
