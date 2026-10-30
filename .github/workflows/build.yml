@@ -10,9 +10,8 @@ jobs:
 
       - name: Build firmware using Docker
         run: |
-          # コンテナ内の独立したクリーン環境下で、直接ワークスペース初期化とコンパイルを実行
+          # コンテナ内に最初から入っているwestツールを使い、初期化とコンパイルを一気に実行します
           docker run --rm -v "$(pwd):/workspace" -w /workspace zmkfirmware/zmk-build-arm:stable /bin/bash -c "
-            pip3 install west &&
             west init -l config &&
             west update &&
             west zephyr-export &&
