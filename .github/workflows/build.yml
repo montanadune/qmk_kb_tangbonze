@@ -5,3 +5,4 @@ jobs:
   build:
         # 古い仕組みでも最新 main でもない、このリポジトリの依存元（cormoran/zmk）と完全に同期したバージョンを指定します
     uses: cormoran/zmk/.github/workflows/build-user-config.yml@main+dya
+
