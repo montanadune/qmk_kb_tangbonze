@@ -3,6 +3,5 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-        # 古い仕組みでも最新 main でもない、このリポジトリの依存元（cormoran/zmk）と完全に同期したバージョンを指定します
+    # 完全にソースコード側の設定（west.yml）とバージョンを同期させてビルドツールを動かす設定です
     uses: cormoran/zmk/.github/workflows/build-user-config.yml@main+dya
-
