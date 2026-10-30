@@ -8,18 +8,16 @@ jobs:
       - name: Checkout user config
         uses: actions/checkout@v4
 
-      - name: Initialize local west workspace
-        run: |
-          pip3 install west
-          west init -l config
-          west update
-          west zephyr-export
-
       - name: Build firmware using Docker
         run: |
-          # 環境変数 ZEPHYR_BASE を明示的に指定して Docker 内の west にビルドさせます
-          docker run --rm -v "$(pwd):/workspace" -e ZEPHYR_BASE=/workspace/modules/zephyr -w /workspace zmkfirmware/zmk-build-arm:stable \
+          # コンテナ内の独立したクリーン環境下で、直接ワークスペース初期化とコンパイルを実行
+          docker run --rm -v "$(pwd):/workspace" -w /workspace zmkfirmware/zmk-build-arm:stable /bin/bash -c "
+            pip3 install west &&
+            west init -l config &&
+            west update &&
+            west zephyr-export &&
             west build -s modules/app -d build/keyball61_right -b nice_nano_v2 -- -DSHIELD=keyball61_right -DZMK_CONFIG=/workspace/config
+          "
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
