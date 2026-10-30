@@ -10,10 +10,10 @@ jobs:
 
       - name: Build firmware using Docker
         run: |
-          # コンテナ内に最初から入っているwestツールを使い、初期化とコンパイルを一気に実行します
+          # --narrow と --depth=1 を追加し、過去の膨大な歴史（タグ等）のダウンロードを100%スキップします
           docker run --rm -v "$(pwd):/workspace" -w /workspace zmkfirmware/zmk-build-arm:stable /bin/bash -c "
             west init -l config &&
-            west update &&
+            west update --narrow --fetch-opt=--depth=1 &&
             west zephyr-export &&
             west build -s modules/app -d build/keyball61_right -b nice_nano_v2 -- -DSHIELD=keyball61_right -DZMK_CONFIG=/workspace/config
           "
