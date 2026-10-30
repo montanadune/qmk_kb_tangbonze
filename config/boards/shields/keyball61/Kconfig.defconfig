@@ -8,12 +8,10 @@ config ZMK_SPLIT_ROLE_CENTRAL
 
 endif
 
-if SHIELD_KEYBALL61_LEFT || SHIELD_KEYBALL61_RIGHT
 
 config ZMK_SPLIT
-	default y
+	default n
 	
-endif
 
 if ZMK_DISPLAY
 
