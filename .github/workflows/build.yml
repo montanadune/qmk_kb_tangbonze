@@ -1,7 +1,28 @@
-name: Build ZMK Firmware
+name: Build ZMK Firmware (Right Hand Single)
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    # 完全にソースコード側の設定（west.yml）とバージョンを同期させてビルドツールを動かす設定です
-    uses: cormoran/zmk/.github/workflows/build-user-config.yml@main+dya
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout user config
+        uses: actions/checkout@v4
+
+      - name: Initialize local west workspace
+        run: |
+          pip3 install west
+          west init -l config
+          # エラーの引き金になる、本家Actions内の互換性チェック（west boards）を一切走らせず
+          # 直接リポジトリの依存関係（dependencies）のみを同期します
+          make init-standalone
+
+      - name: Build firmware using Docker
+        run: |
+          docker run --rm -v "$(pwd):/workspace" -w /workspace zmkfirmware/zmk-build-arm:stable \
+            west build -s dependencies/zmk/app -d build/keyball61_right -b nice_nano_v2 -- -DSHIELD=keyball61_right -DZMK_CONFIG=/workspace/config
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyball61_right_firmware
+          path: build/keyball61_right/zephyr/zmk.uf2
