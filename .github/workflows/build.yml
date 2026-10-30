@@ -3,5 +3,5 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    # 呼び出すワークフローを最新のメインブランチ（@main）に変更します
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+        # 古い仕組みでも最新 main でもない、このリポジトリの依存元（cormoran/zmk）と完全に同期したバージョンを指定します
+    uses: cormoran/zmk/.github/workflows/build-user-config.yml@main+dya
