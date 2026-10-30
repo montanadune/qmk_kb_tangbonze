@@ -9,7 +9,8 @@ on:
 
 jobs:
   draw:
-    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
+    uses: cormoran/zmk/.github/workflows/build-user-config.yml@main+dya
+
     permissions:
       contents: write
     with:
