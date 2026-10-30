@@ -40,6 +40,18 @@ config LV_DPI_DEF
 config LV_Z_BITS_PER_PIXEL
     default 1
 
+
+if SHIELD_KEYBALL61_RIGHT_SINGLE
+    config ZMK_KEYBOARD_NAME
+        default "Keyball61 Right"
+
+    config ZMK_SPLIT
+        default n
+
+    config ZMK_SPLIT_BLE
+        default n
+endif
+
 choice LV_COLOR_DEPTH
     default LV_COLOR_DEPTH_1
 endchoice
